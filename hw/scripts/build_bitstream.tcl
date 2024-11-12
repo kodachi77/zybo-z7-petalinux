@@ -1,13 +1,17 @@
 set overlay_name "hw"
 set design_name "system"
 
+set root_path [file normalize [file dirname [info script]]/..]
+
+source [file join ${root_path} project_info.tcl]
+
 # open block design
-open_project ../proj/${overlay_name}.xpr
-open_bd_design ../proj/${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd
+open_project ${overlay_name}.xpr
+open_bd_design ${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd
 
 # add top wrapper, no xdc files
-make_wrapper -files [get_files ../proj/${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
-add_files -norecurse ../proj/${overlay_name}.srcs/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.vhd
+make_wrapper -files [get_files ${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
+add_files -norecurse ${overlay_name}.gen/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.vhd
 set_property top ${design_name}_wrapper [current_fileset]
 update_compile_order -fileset sources_1
 
@@ -23,9 +27,10 @@ launch_runs impl_1 -to_step write_bitstream -jobs 4
 wait_on_run impl_1
 
 # generate xsa
+set_property platform.name [string ${platform_name}] [current_project]
 write_hw_platform -include_bit -force ../${overlay_name}.xsa
 validate_hw_platform ../${overlay_name}.xsa
 
 # move and rename bitstream to final location
-file copy -force ../proj/${overlay_name}.runs/impl_1/${design_name}_wrapper.bit ${overlay_name}.bit
-file copy -force ../proj/${overlay_name}.gen/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ${overlay_name}.hwh
+file copy -force ${overlay_name}.runs/impl_1/${design_name}_wrapper.bit ../${overlay_name}.bit
+file copy -force ${overlay_name}.gen/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ../${overlay_name}.hwh

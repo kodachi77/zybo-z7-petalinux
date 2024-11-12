@@ -1,3 +1,6 @@
+variable platform_name
+set platform_name "Zybo-Z7-2022.1"
+
 # This is an automatically generated file used by digilent_vivado_checkout.tcl to set project options
 proc set_project_properties_post_create_project {proj_name} {
     set project_obj [get_projects $proj_name]
