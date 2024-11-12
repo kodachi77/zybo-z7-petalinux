@@ -48,7 +48,7 @@ CONFIG_system-zynq=y
 #
 # busybox 
 #
-# CONFIG_busybox is not set
+CONFIG_busybox=y
 # CONFIG_busybox-udhcpd is not set
 # CONFIG_busybox-httpd is not set
 # CONFIG_busybox-dbg is not set
@@ -306,7 +306,7 @@ CONFIG_mtd-utils=y
 #
 # tar 
 #
-# CONFIG_tar is not set
+CONFIG_tar=y
 # CONFIG_tar-dev is not set
 # CONFIG_tar-rmt is not set
 # CONFIG_tar-dbg is not set
@@ -391,7 +391,7 @@ CONFIG_mtd-utils=y
 #
 # xz 
 #
-# CONFIG_xz is not set
+CONFIG_xz=y
 # CONFIG_xz-dev is not set
 # CONFIG_xz-dbg is not set
 # CONFIG_liblzma is not set
@@ -418,7 +418,7 @@ CONFIG_mtd-utils=y
 #
 # dhrystone 
 #
-# CONFIG_dhrystone is not set
+CONFIG_dhrystone=y
 # CONFIG_dhrystone-dev is not set
 # CONFIG_dhrystone-dbg is not set
 
@@ -476,7 +476,7 @@ CONFIG_can-utils=y
 #
 # dropbear 
 #
-# CONFIG_dropbear is not set
+CONFIG_dropbear=y
 # CONFIG_dropbear-dev is not set
 # CONFIG_dropbear-dbg is not set
 
@@ -490,7 +490,7 @@ CONFIG_can-utils=y
 #
 # lrzsz 
 #
-CONFIG_lrzsz=y
+# CONFIG_lrzsz is not set
 # CONFIG_lrzsz-dbg is not set
 # CONFIG_lrzsz-dev is not set
 
@@ -607,22 +607,22 @@ CONFIG_openssh-sftp-server=y
 #
 # alsa-utils 
 #
-CONFIG_alsa-utils=y
-CONFIG_alsa-utils-aconnect=y
-CONFIG_alsa-utils-alsaloop=y
-CONFIG_alsa-utils-aseqdump=y
-CONFIG_alsa-utils-aplay=y
-CONFIG_alsa-utils-iecset=y
-CONFIG_alsa-utils-alsaucm=y
+# CONFIG_alsa-utils is not set
+# CONFIG_alsa-utils-aconnect is not set
+# CONFIG_alsa-utils-alsaloop is not set
+# CONFIG_alsa-utils-aseqdump is not set
+# CONFIG_alsa-utils-aplay is not set
+# CONFIG_alsa-utils-iecset is not set
+# CONFIG_alsa-utils-alsaucm is not set
 # CONFIG_alsa-utils-dev is not set
-CONFIG_alsa-utils-alsamixer=y
-CONFIG_alsa-utils-amixer=y
-CONFIG_alsa-utils-speakertest=y
-CONFIG_alsa-utils-alsactl=y
+# CONFIG_alsa-utils-alsamixer is not set
+# CONFIG_alsa-utils-amixer is not set
+# CONFIG_alsa-utils-speakertest is not set
+# CONFIG_alsa-utils-alsactl is not set
 # CONFIG_alsa-utils-dbg is not set
-CONFIG_alsa-utils-midi=y
-CONFIG_alsa-utils-aseqnet=y
-CONFIG_alsa-utils-alsatplg=y
+# CONFIG_alsa-utils-midi is not set
+# CONFIG_alsa-utils-aseqnet is not set
+# CONFIG_alsa-utils-alsatplg is not set
 
 #
 # bash-completion 
@@ -688,7 +688,7 @@ CONFIG_grep=y
 #
 # gzip 
 #
-# CONFIG_gzip is not set
+CONFIG_gzip=y
 # CONFIG_gzip-dbg is not set
 # CONFIG_gzip-dev is not set
 
@@ -729,7 +729,7 @@ CONFIG_grep=y
 #
 # mc 
 #
-# CONFIG_mc is not set
+CONFIG_mc=y
 # CONFIG_mc-dev is not set
 # CONFIG_mc-helpers-perl is not set
 # CONFIG_mc-helpers is not set
@@ -762,7 +762,7 @@ CONFIG_pciutils=y
 #
 # sed 
 #
-# CONFIG_sed is not set
+CONFIG_sed=y
 # CONFIG_sed-dbg is not set
 # CONFIG_sed-dev is not set
 
@@ -1819,43 +1819,43 @@ CONFIG_run-postinsts=y
 #
 # alsa-lib 
 #
-CONFIG_alsa-lib=y
+# CONFIG_alsa-lib is not set
 # CONFIG_alsa-lib-dbg is not set
 # CONFIG_alsa-lib-dev is not set
-CONFIG_alsa-server=y
-CONFIG_libasound=y
-CONFIG_alsa-conf-base=y
-CONFIG_alsa-conf=y
-CONFIG_alsa-oss=y
+# CONFIG_alsa-server is not set
+# CONFIG_libasound is not set
+# CONFIG_alsa-conf-base is not set
+# CONFIG_alsa-conf is not set
+# CONFIG_alsa-oss is not set
 
 #
 # libsndfile1 
 #
-CONFIG_libsndfile1=y
+# CONFIG_libsndfile1 is not set
 # CONFIG_libsndfile1-dbg is not set
 # CONFIG_libsndfile1-dev is not set
-CONFIG_libsndfile1-bin=y
+# CONFIG_libsndfile1-bin is not set
 
 #
 # pulseaudio 
 #
-CONFIG_pulseaudio=y
-CONFIG_pulseaudio-misc=y
-CONFIG_libpulse-mainloop-glib=y
+# CONFIG_pulseaudio is not set
+# CONFIG_pulseaudio-misc is not set
+# CONFIG_libpulse-mainloop-glib is not set
 # CONFIG_pulseaudio-dbg is not set
-CONFIG_libpulsecommon=y
-CONFIG_pulseaudio-module-console-kit=y
-CONFIG_pulseaudio-bash-completion=y
-CONFIG_libpulse-simple=y
-CONFIG_libpulsecore=y
-CONFIG_libpulse=y
+# CONFIG_libpulsecommon is not set
+# CONFIG_pulseaudio-module-console-kit is not set
+# CONFIG_pulseaudio-bash-completion is not set
+# CONFIG_libpulse-simple is not set
+# CONFIG_libpulsecore is not set
+# CONFIG_libpulse is not set
 # CONFIG_pulseaudio-dev is not set
-CONFIG_pulseaudio-server=y
+# CONFIG_pulseaudio-server is not set
 
 #
 # taglib 
 #
-CONFIG_taglib=y
+# CONFIG_taglib is not set
 # CONFIG_taglib-dev is not set
 # CONFIG_taglib-c is not set
 # CONFIG_taglib-dbg is not set
@@ -2072,10 +2072,10 @@ CONFIG_ncurses=y
 #
 # alsa-state 
 #
-CONFIG_alsa-state=y
+# CONFIG_alsa-state is not set
 # CONFIG_alsa-state-dev is not set
 # CONFIG_alsa-state-dbg is not set
-CONFIG_alsa-states=y
+# CONFIG_alsa-states is not set
 
 #
 # apache2
@@ -3250,10 +3250,10 @@ CONFIG_yavta=y
 #
 # alsa-plugins 
 #
-CONFIG_alsa-plugins=y
+# CONFIG_alsa-plugins is not set
 # CONFIG_alsa-plugins-dev is not set
 # CONFIG_alsa-plugins-dbg is not set
-CONFIG_alsa-plugins-pulseaudio-conf=y
+# CONFIG_alsa-plugins-pulseaudio-conf is not set
 
 #
 # gstreamer1.0 
@@ -3877,7 +3877,7 @@ CONFIG_imagefeature-ssh-server-dropbear=y
 CONFIG_imagefeature-hwcodecs=y
 # CONFIG_imagefeature-package-management is not set
 CONFIG_imagefeature-debug-tweaks=y
-# CONFIG_auto-login is not set
+CONFIG_auto-login=y
 # CONFIG_Init-manager-systemd is not set
 CONFIG_Init-manager-sysvinit=y
 
