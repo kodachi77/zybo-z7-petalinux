@@ -1,6 +1,3 @@
 [submodule "hw/repo/vivado-library"]
 	path = hw/repo/vivado-library
 	url = https://github.com/kodachi77/vivado-library
-[submodule "hw/scripts"]
-	path = hw/scripts
-	url = https://github.com/Digilent/digilent-vivado-scripts/
