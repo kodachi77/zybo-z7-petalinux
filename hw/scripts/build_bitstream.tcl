@@ -27,10 +27,5 @@ launch_runs impl_1 -to_step write_bitstream -jobs 4
 wait_on_run impl_1
 
 # generate xsa
-set_property platform.name [string ${platform_name}] [current_project]
 write_hw_platform -include_bit -force ../${overlay_name}.xsa
-validate_hw_platform ../${overlay_name}.xsa
-
-# move and rename bitstream to final location
-file copy -force ${overlay_name}.runs/impl_1/${design_name}_wrapper.bit ../${overlay_name}.bit
-file copy -force ${overlay_name}.gen/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ../${overlay_name}.hwh
+validate_hw_platform ../hw_handoff/${overlay_name}.xsa

@@ -9,8 +9,8 @@ project:
 	vivado -mode batch -source checkout.tcl -notrace
 
 bitstream:
-	cd ../proj && vivado -mode batch -source ../scripts/build_bitstream.tcl || exit_code=$$? && cd ../scripts
-	if [ -n "$$exit_code" ]; then exit $$exit_code; fi
+	@cd ../proj && vivado -mode batch -source ../scripts/build_bitstream.tcl -notrace || exit_code=$$? && cd ../scripts
+	@if [ -n "$$exit_code" ]; then exit $$exit_code; fi
 
 clean:
-	rm -rf ../proj/hw.* *.jou *.log NA .Xil
+	@rm -rf ../proj/hw.* *.jou *.log NA .Xil
