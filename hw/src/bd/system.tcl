@@ -25,8 +25,9 @@ set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
    puts ""
-   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
+   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
 
+   return 1
 }
 
 ################################################################
@@ -123,28 +124,28 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:xlslice:*\
-digilentinc.com:ip:axi_dynclk:*\
-xilinx.com:ip:axi_gpio:*\
-digilentinc.com:user:axi_i2s_adi:*\
-xilinx.com:ip:axi_iic:*\
-xilinx.com:ip:axi_vdma:*\
-xilinx.com:ip:axis_subset_converter:*\
-xilinx.com:ip:clk_wiz:*\
-digilentinc.com:ip:dvi2rgb:*\
-xilinx.com:ip:mipi_csi2_rx_subsystem:*\
-xilinx.com:ip:proc_sys_reset:*\
-xilinx.com:ip:processing_system7:*\
-digilentinc.com:IP:PWM:*\
-digilentinc.com:ip:rgb2dvi:*\
-xilinx.com:ip:util_ds_buf:*\
-xilinx.com:ip:v_axi4s_vid_out:*\
-xilinx.com:ip:v_frmbuf_wr:*\
-xilinx.com:ip:v_tc:*\
-xilinx.com:ip:v_vid_in_axi4s:*\
-xilinx.com:ip:xadc_wiz:*\
-xilinx.com:ip:xlconcat:*\
-xilinx.com:ip:xlconstant:*\
+xilinx.com:ip:xlslice:1.0\
+digilentinc.com:ip:axi_dynclk:1.2\
+xilinx.com:ip:axi_gpio:2.0\
+digilentinc.com:user:axi_i2s_adi:1.2\
+xilinx.com:ip:axi_iic:2.1\
+xilinx.com:ip:axi_vdma:6.3\
+xilinx.com:ip:axis_subset_converter:1.1\
+xilinx.com:ip:clk_wiz:6.0\
+digilentinc.com:ip:dvi2rgb:2.0\
+xilinx.com:ip:mipi_csi2_rx_subsystem:5.1\
+xilinx.com:ip:proc_sys_reset:5.0\
+xilinx.com:ip:processing_system7:5.5\
+digilentinc.com:IP:PWM:2.0\
+digilentinc.com:ip:rgb2dvi:1.4\
+xilinx.com:ip:util_ds_buf:2.2\
+xilinx.com:ip:v_axi4s_vid_out:4.0\
+xilinx.com:ip:v_frmbuf_wr:2.4\
+xilinx.com:ip:v_tc:6.2\
+xilinx.com:ip:v_vid_in_axi4s:5.0\
+xilinx.com:ip:xadc_wiz:3.3\
+xilinx.com:ip:xlconcat:2.1\
+xilinx.com:ip:xlconstant:1.1\
 "
 
    set list_ips_missing ""
@@ -262,7 +263,7 @@ proc create_root_design { parentCell } {
  ] $sys_clock
 
   # Create instance: PS_GPIO_0, and set properties
-  set PS_GPIO_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice PS_GPIO_0 ]
+  set PS_GPIO_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 PS_GPIO_0 ]
   set_property -dict [ list \
    CONFIG.DIN_FROM {0} \
    CONFIG.DIN_TO {0} \
@@ -270,7 +271,7 @@ proc create_root_design { parentCell } {
  ] $PS_GPIO_0
 
   # Create instance: PS_GPIO_2, and set properties
-  set PS_GPIO_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice PS_GPIO_2 ]
+  set PS_GPIO_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 PS_GPIO_2 ]
   set_property -dict [ list \
    CONFIG.DIN_FROM {2} \
    CONFIG.DIN_TO {2} \
@@ -279,7 +280,7 @@ proc create_root_design { parentCell } {
  ] $PS_GPIO_2
 
   # Create instance: PS_GPIO_3, and set properties
-  set PS_GPIO_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice PS_GPIO_3 ]
+  set PS_GPIO_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 PS_GPIO_3 ]
   set_property -dict [ list \
    CONFIG.DIN_FROM {3} \
    CONFIG.DIN_TO {3} \
@@ -288,10 +289,13 @@ proc create_root_design { parentCell } {
  ] $PS_GPIO_3
 
   # Create instance: axi_dynclk_0, and set properties
-  set axi_dynclk_0 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:axi_dynclk axi_dynclk_0 ]
+  set axi_dynclk_0 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:axi_dynclk:1.2 axi_dynclk_0 ]
+  set_property -dict [ list \
+   CONFIG.kAddBUFMR {false} \
+ ] $axi_dynclk_0
 
   # Create instance: axi_gpio_eth, and set properties
-  set axi_gpio_eth [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_eth ]
+  set axi_gpio_eth [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_eth ]
   set_property -dict [ list \
    CONFIG.C_DOUT_DEFAULT {0x00000000} \
    CONFIG.C_GPIO_WIDTH {1} \
@@ -299,7 +303,7 @@ proc create_root_design { parentCell } {
  ] $axi_gpio_eth
 
   # Create instance: axi_gpio_led, and set properties
-  set axi_gpio_led [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_led ]
+  set axi_gpio_led [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_led ]
   set_property -dict [ list \
    CONFIG.C_GPIO_WIDTH {4} \
    CONFIG.GPIO_BOARD_INTERFACE {leds_4bits} \
@@ -307,7 +311,7 @@ proc create_root_design { parentCell } {
  ] $axi_gpio_led
 
   # Create instance: axi_gpio_sw_btn, and set properties
-  set axi_gpio_sw_btn [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_sw_btn ]
+  set axi_gpio_sw_btn [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_sw_btn ]
   set_property -dict [ list \
    CONFIG.C_ALL_INPUTS {1} \
    CONFIG.C_ALL_INPUTS_2 {1} \
@@ -320,7 +324,7 @@ proc create_root_design { parentCell } {
  ] $axi_gpio_sw_btn
 
   # Create instance: axi_gpio_video, and set properties
-  set axi_gpio_video [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_video ]
+  set axi_gpio_video [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_video ]
   set_property -dict [ list \
    CONFIG.C_ALL_INPUTS_2 {1} \
    CONFIG.C_ALL_OUTPUTS {1} \
@@ -331,19 +335,19 @@ proc create_root_design { parentCell } {
  ] $axi_gpio_video
 
   # Create instance: axi_i2s_adi_1, and set properties
-  set axi_i2s_adi_1 [ create_bd_cell -type ip -vlnv digilentinc.com:user:axi_i2s_adi axi_i2s_adi_1 ]
+  set axi_i2s_adi_1 [ create_bd_cell -type ip -vlnv digilentinc.com:user:axi_i2s_adi:1.2 axi_i2s_adi_1 ]
   set_property -dict [ list \
    CONFIG.C_DMA_TYPE {1} \
  ] $axi_i2s_adi_1
 
   # Create instance: axi_iic_0, and set properties
-  set axi_iic_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic axi_iic_0 ]
+  set axi_iic_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.1 axi_iic_0 ]
   set_property -dict [ list \
    CONFIG.IIC_FREQ_KHZ {400} \
  ] $axi_iic_0
 
   # Create instance: axi_mem_intercon, and set properties
-  set axi_mem_intercon [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_mem_intercon ]
+  set axi_mem_intercon [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_mem_intercon ]
   set_property -dict [ list \
    CONFIG.NUM_MI {1} \
    CONFIG.S00_HAS_DATA_FIFO {0} \
@@ -351,7 +355,7 @@ proc create_root_design { parentCell } {
  ] $axi_mem_intercon
 
   # Create instance: axi_mem_intercon_HP0, and set properties
-  set axi_mem_intercon_HP0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_mem_intercon_HP0 ]
+  set axi_mem_intercon_HP0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_mem_intercon_HP0 ]
   set_property -dict [ list \
    CONFIG.ENABLE_ADVANCED_OPTIONS {1} \
    CONFIG.M00_HAS_REGSLICE {4} \
@@ -364,7 +368,7 @@ proc create_root_design { parentCell } {
  ] $axi_mem_intercon_HP0
 
   # Create instance: axi_vdma_0, and set properties
-  set axi_vdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma axi_vdma_0 ]
+  set axi_vdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma:6.3 axi_vdma_0 ]
   set_property -dict [ list \
    CONFIG.c_include_mm2s {0} \
    CONFIG.c_include_s2mm_dre {1} \
@@ -376,7 +380,7 @@ proc create_root_design { parentCell } {
  ] $axi_vdma_0
 
   # Create instance: axi_vdma_1, and set properties
-  set axi_vdma_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma axi_vdma_1 ]
+  set axi_vdma_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vdma:6.3 axi_vdma_1 ]
   set_property -dict [ list \
    CONFIG.c_include_mm2s_dre {1} \
    CONFIG.c_include_s2mm {0} \
@@ -388,10 +392,10 @@ proc create_root_design { parentCell } {
  ] $axi_vdma_1
 
   # Create instance: axis_subset_converter_0, and set properties
-  set axis_subset_converter_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter axis_subset_converter_0 ]
+  set axis_subset_converter_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter:1.1 axis_subset_converter_0 ]
 
   # Create instance: axis_subset_converter_in, and set properties
-  set axis_subset_converter_in [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter axis_subset_converter_in ]
+  set axis_subset_converter_in [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter:1.1 axis_subset_converter_in ]
   set_property -dict [ list \
    CONFIG.M_HAS_TLAST {1} \
    CONFIG.M_TDATA_NUM_BYTES {3} \
@@ -405,10 +409,10 @@ proc create_root_design { parentCell } {
  ] $axis_subset_converter_in
 
   # Create instance: axis_subset_converter_out, and set properties
-  set axis_subset_converter_out [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter axis_subset_converter_out ]
+  set axis_subset_converter_out [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter:1.1 axis_subset_converter_out ]
 
   # Create instance: clk_wiz_0, and set properties
-  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz clk_wiz_0 ]
+  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0 ]
   set_property -dict [ list \
    CONFIG.CLKIN1_JITTER_PS {80.0} \
    CONFIG.CLKOUT1_DRIVES {BUFG} \
@@ -442,7 +446,7 @@ proc create_root_design { parentCell } {
  ] $clk_wiz_0
 
   # Create instance: dvi2rgb_1, and set properties
-  set dvi2rgb_1 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:dvi2rgb dvi2rgb_1 ]
+  set dvi2rgb_1 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:dvi2rgb:2.0 dvi2rgb_1 ]
   set_property -dict [ list \
    CONFIG.IIC_BOARD_INTERFACE {hdmi_in_ddc} \
    CONFIG.TMDS_BOARD_INTERFACE {hdmi_in} \
@@ -454,7 +458,7 @@ proc create_root_design { parentCell } {
  ] $dvi2rgb_1
 
   # Create instance: mipi_csi2_rx_subsystem_0, and set properties
-  set mipi_csi2_rx_subsystem_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem mipi_csi2_rx_subsystem_0 ]
+  set mipi_csi2_rx_subsystem_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem:5.1 mipi_csi2_rx_subsystem_0 ]
   set_property -dict [ list \
    CONFIG.AXIS_TDEST_WIDTH {4} \
    CONFIG.CMN_NUM_LANES {2} \
@@ -473,10 +477,10 @@ proc create_root_design { parentCell } {
  ] $mipi_csi2_rx_subsystem_0
 
   # Create instance: proc_sys_reset_0, and set properties
-  set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset proc_sys_reset_0 ]
+  set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
 
   # Create instance: processing_system7_0, and set properties
-  set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7 processing_system7_0 ]
+  set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0 ]
   set_property -dict [ list \
    CONFIG.PCW_ACT_APU_PERIPHERAL_FREQMHZ {666.666687} \
    CONFIG.PCW_ACT_CAN0_PERIPHERAL_FREQMHZ {23.8095} \
@@ -1295,20 +1299,20 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $processing_system7_0
 
   # Create instance: ps7_0_axi_periph_GP0, and set properties
-  set ps7_0_axi_periph_GP0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect ps7_0_axi_periph_GP0 ]
+  set ps7_0_axi_periph_GP0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 ps7_0_axi_periph_GP0 ]
   set_property -dict [ list \
    CONFIG.NUM_MI {15} \
    CONFIG.SYNCHRONIZATION_STAGES {2} \
  ] $ps7_0_axi_periph_GP0
 
   # Create instance: pwm_rgb, and set properties
-  set pwm_rgb [ create_bd_cell -type ip -vlnv digilentinc.com:IP:PWM pwm_rgb ]
+  set pwm_rgb [ create_bd_cell -type ip -vlnv digilentinc.com:IP:PWM:2.0 pwm_rgb ]
   set_property -dict [ list \
    CONFIG.NUM_PWM {6} \
  ] $pwm_rgb
 
   # Create instance: rgb2dvi_1, and set properties
-  set rgb2dvi_1 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:rgb2dvi rgb2dvi_1 ]
+  set rgb2dvi_1 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:rgb2dvi:1.4 rgb2dvi_1 ]
   set_property -dict [ list \
    CONFIG.TMDS_BOARD_INTERFACE {hdmi_out} \
    CONFIG.kGenerateSerialClk {false} \
@@ -1316,19 +1320,19 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $rgb2dvi_1
 
   # Create instance: rst_ps7_0_100M, and set properties
-  set rst_ps7_0_100M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_ps7_0_100M ]
+  set rst_ps7_0_100M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_ps7_0_100M ]
 
   # Create instance: rst_ps7_0_133M, and set properties
-  set rst_ps7_0_133M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset rst_ps7_0_133M ]
+  set rst_ps7_0_133M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_ps7_0_133M ]
 
   # Create instance: util_ds_buf_fclk1, and set properties
-  set util_ds_buf_fclk1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf util_ds_buf_fclk1 ]
+  set util_ds_buf_fclk1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.2 util_ds_buf_fclk1 ]
   set_property -dict [ list \
    CONFIG.C_BUF_TYPE {BUFG} \
  ] $util_ds_buf_fclk1
 
   # Create instance: v_axi4s_vid_out_0, and set properties
-  set v_axi4s_vid_out_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_axi4s_vid_out v_axi4s_vid_out_0 ]
+  set v_axi4s_vid_out_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_axi4s_vid_out:4.0 v_axi4s_vid_out_0 ]
   set_property -dict [ list \
    CONFIG.C_ADDR_WIDTH {12} \
    CONFIG.C_HAS_ASYNC_CLK {1} \
@@ -1336,7 +1340,7 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $v_axi4s_vid_out_0
 
   # Create instance: v_frmbuf_wr_0, and set properties
-  set v_frmbuf_wr_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_frmbuf_wr v_frmbuf_wr_0 ]
+  set v_frmbuf_wr_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_frmbuf_wr:2.4 v_frmbuf_wr_0 ]
   set_property -dict [ list \
    CONFIG.AXIMM_DATA_WIDTH {64} \
    CONFIG.C_M_AXI_MM_VIDEO_DATA_WIDTH {64} \
@@ -1349,7 +1353,7 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $v_frmbuf_wr_0
 
   # Create instance: v_tc_in, and set properties
-  set v_tc_in [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_tc v_tc_in ]
+  set v_tc_in [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_tc:6.2 v_tc_in ]
   set_property -dict [ list \
    CONFIG.GEN_F0_VBLANK_HEND {640} \
    CONFIG.GEN_F0_VBLANK_HSTART {640} \
@@ -1366,7 +1370,7 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $v_tc_in
 
   # Create instance: v_tc_out, and set properties
-  set v_tc_out [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_tc v_tc_out ]
+  set v_tc_out [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_tc:6.2 v_tc_out ]
   set_property -dict [ list \
    CONFIG.GEN_F0_VBLANK_HEND {640} \
    CONFIG.GEN_F0_VBLANK_HSTART {640} \
@@ -1380,14 +1384,14 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $v_tc_out
 
   # Create instance: v_vid_in_axi4s_0, and set properties
-  set v_vid_in_axi4s_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_vid_in_axi4s v_vid_in_axi4s_0 ]
+  set v_vid_in_axi4s_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_vid_in_axi4s:5.0 v_vid_in_axi4s_0 ]
   set_property -dict [ list \
    CONFIG.C_ADDR_WIDTH {12} \
    CONFIG.C_HAS_ASYNC_CLK {1} \
  ] $v_vid_in_axi4s_0
 
   # Create instance: xadc_wiz_0, and set properties
-  set xadc_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xadc_wiz xadc_wiz_0 ]
+  set xadc_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xadc_wiz:3.3 xadc_wiz_0 ]
   set_property -dict [ list \
    CONFIG.CHANNEL_AVERAGING {16} \
    CONFIG.CHANNEL_ENABLE_CALIBRATION {true} \
@@ -1421,16 +1425,16 @@ gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_
  ] $xadc_wiz_0
 
   # Create instance: xlconcat_0, and set properties
-  set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat xlconcat_0 ]
+  set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
   set_property -dict [ list \
    CONFIG.NUM_PORTS {9} \
  ] $xlconcat_0
 
   # Create instance: xlconstant_0, and set properties
-  set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant xlconstant_0 ]
+  set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
 
   # Create instance: xlconstant_1, and set properties
-  set xlconstant_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant xlconstant_1 ]
+  set xlconstant_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1 ]
 
   # Create interface connections
   connect_bd_intf_net -intf_net Vaux14_1 [get_bd_intf_ports Vaux14] [get_bd_intf_pins xadc_wiz_0/Vaux14]

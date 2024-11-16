@@ -8,12 +8,7 @@ source [file join ${root_path} project_info.tcl]
 # open block design
 open_project ${overlay_name}.xpr
 open_bd_design ${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd
-
-# add top wrapper, no xdc files
-make_wrapper -files [get_files ${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
-add_files -norecurse ${overlay_name}.gen/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.vhd
-set_property top ${design_name}_wrapper [current_fileset]
-update_compile_order -fileset sources_1
+write_bd_layout -format pdf -orientation landscape -force ${root_path}/hw_handoff/system.pdf
 
 # set platform properties
 set_property platform.default_output_type "sd_card" [current_project]
@@ -23,6 +18,7 @@ set_property platform.design_intent.external_host "false" [current_project]
 set_property platform.design_intent.datacenter "false" [current_project]
 
 # call implement
+update_compile_order -fileset sources_1
 launch_runs impl_1 -to_step write_bitstream -jobs 4
 wait_on_run impl_1
 
