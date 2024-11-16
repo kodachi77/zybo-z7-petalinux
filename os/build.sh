@@ -2,9 +2,9 @@
 
 # petalinux-create -t project -n os --template zynq
 
-#petalinux-config --get-hw-description=../hw/hw_handoff/system_wrapper.xsa
-#petalinux-config -c rootfs
-petalinux-config -c kernel
+# petalinux-config --get-hw-description=../hw/hw_handoff/system_wrapper.xsa
+# petalinux-config -c rootfs
+# petalinux-config -c kernel
 
 petalinux-build
 

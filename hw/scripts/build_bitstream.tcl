@@ -23,5 +23,5 @@ launch_runs impl_1 -to_step write_bitstream -jobs 4
 wait_on_run impl_1
 
 # generate xsa
-write_hw_platform -include_bit -force ../${overlay_name}.xsa
+write_hw_platform -fixed -include_bit -force -file ../${overlay_name}.xsa
 validate_hw_platform ../hw_handoff/${overlay_name}.xsa
