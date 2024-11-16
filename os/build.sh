@@ -8,6 +8,6 @@
 
 petalinux-build
 
-# petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --uboot --force
-# petalinux-build --sdk
-# petalinux-package --sysroot
+petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --uboot --force
+petalinux-build --sdk
+petalinux-package --sysroot
