@@ -49,6 +49,13 @@
         spi-max-frequency = <100000000>;
 };
 
+&amba {
+	zyxclmm_drm {
+	    compatible = "xlnx,zocl";
+	    status = "okay";
+	};
+};
+
 &amba_pl {
 	digilent_hdmi {
 		compatible = "digilent,hdmi";

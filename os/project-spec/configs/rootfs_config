@@ -2032,21 +2032,21 @@ CONFIG_ncurses=y
 #
 # xrt
 #
-# CONFIG_xrt is not set
-# CONFIG_xrt-dev is not set
+CONFIG_xrt=y
+CONFIG_xrt-dev=y
 # CONFIG_xrt-dbg is not set
 
 #
 # zocl
 #
-# CONFIG_zocl is not set
+CONFIG_zocl=y
 # CONFIG_zocl-dev is not set
 # CONFIG_zocl-dbg is not set
 
 #
 # opencl-clhpp
 #
-# CONFIG_opencl-clhpp-dev is not set
+CONFIG_opencl-clhpp-dev=y
 
 #
 # opencl-headers
@@ -3815,7 +3815,7 @@ CONFIG_u-boot-tools=y
 #
 # packagegroup-petalinux-opencv 
 #
-# CONFIG_packagegroup-petalinux-opencv is not set
+CONFIG_packagegroup-petalinux-opencv=y
 # CONFIG_packagegroup-petalinux-opencv-dbg is not set
 # CONFIG_packagegroup-petalinux-opencv-dev is not set
 
@@ -3885,7 +3885,8 @@ CONFIG_Init-manager-sysvinit=y
 # user packages 
 #
 CONFIG_gpio-demo=y
-# CONFIG_peekpoke is not set
+CONFIG_opencl-headers-dev=y
+CONFIG_peekpoke=y
 
 #
 # PetaLinux RootFS Settings
